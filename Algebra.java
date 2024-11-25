@@ -73,10 +73,21 @@ public class Algebra {
 	public static int times(int x1, int x2) {
 		int counter = 0;
 		int finalNum = x1;
-		while (counter < x2)
+		if (x2 > 0)
+		{
+			while (counter < x2)
 		{
 			counter++;
 			finalNum = plus(finalNum, x1);
+		}
+	}
+		else
+		{
+			while (counter > x2)
+			{
+				counter--;
+				finalNum = plus(finalNum, finalNum);
+			}
 		}
 		return finalNum;
 	}
