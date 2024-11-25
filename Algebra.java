@@ -25,43 +25,152 @@ public class Algebra {
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		int counter = 0;
+		int finalNum = x1;
+		if(x2 > 0)
+		{
+			while (counter < x2)
+			{
+				finalNum++;
+				counter++;
+			}		
+		}
+		else
+		{
+			while (counter > x2)
+			{
+				finalNum--;
+				counter--;
+			}
+		}
+		return finalNum;
 	}
 
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		int counter = 0;
+		int finalNum = x1;
+		if (x2 > 0) 
+		{
+			while (counter < x2)
+		{
+			counter++;
+			finalNum--;
+		}
+		}
+		else
+		{
+			while (counter > x2)
+			{
+				counter--;
+				finalNum++;
+			}
+		}	
+		return finalNum;
 	}
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		int counter = 0;
+    int finalNum = 0; // Start from zero for multiplication
+
+    if (x2 > 0) {
+        while (counter < x2) {
+            counter++;
+            finalNum = plus(finalNum, x1); // Add x1 repeatedly
+        }
+    } else if (x2 < 0) {
+        while (counter > x2) {
+            counter--;
+            finalNum = plus(finalNum, -x1); // Subtract x1 repeatedly
+        }
+    }
+    // If x2 == 0, finalNum remains 0
+    return finalNum;
 	}
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-		// Replace the following statement with your code
-		return 0;
+		if (n == 0) {
+			return 1; // x^0 = 1
+		}
+	
+		int counter = 1; // Start from 1 because the first multiplication is implicit
+		int finalNum = x;
+	
+		while (counter < n) {
+			counter++;
+			finalNum = times(finalNum, x);
+		}
+		return finalNum;
 	}
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+	int finalNum = 0;
+    int dividend = x1;
+    int divisor = x2;
+
+    
+    int negativeResult = 0;
+
+    
+    if (dividend < 0) {
+        dividend = minus(dividend, dividend);  
+        negativeResult = plus(negativeResult, 1); 
+    }
+    if (divisor < 0) {
+        divisor = minus(divisor, divisor); 
+        negativeResult = plus(negativeResult, 1); 
+    }
+
+   
+    while (dividend >= divisor) {
+        dividend = minus(dividend, divisor);  
+        finalNum = plus(finalNum, 1); 
+    }
+
+    if (negativeResult == 1) {
+        finalNum = minus(finalNum, finalNum); 
+    }
+
+    return finalNum;
 	}
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
+		int finalNum = x1;
+		while (finalNum >= x2)
+		{
+			finalNum = minus(finalNum, x2);
+		}
+		return finalNum;
 	}	
 
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
-		// Replace the following statement with your code
-		return 0;
+		if (x < 2) {
+			return x;  
+		}
+	
+		int left = 1;
+		int right = x;
+		int result = 0;
+	
+		while (left <= right) {
+			int mid = (left + right) / 2;
+			int midSquared = times(mid, mid);  
+	
+			if (midSquared == x) {
+				return mid;  
+			} else if (midSquared < x) {
+				left = mid + 1;  
+				result = mid;    
+			} else {
+				right = mid - 1;  
+			}
+		}
+	
+		return result;
 	}	  	  
 }
