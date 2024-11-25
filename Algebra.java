@@ -27,10 +27,21 @@ public class Algebra {
 	public static int plus(int x1, int x2) {
 		int counter = 0;
 		int finalNum = x1;
-		while (counter < x2)
+		if(x2 > 0)
 		{
-			finalNum++;
-			counter++;
+			while (counter < x2)
+			{
+				finalNum++;
+				counter++;
+			}		
+		}
+		else
+		{
+			while (counter > x2)
+			{
+				finalNum--;
+				counter--;
+			}
 		}
 		return finalNum;
 	}
@@ -39,11 +50,22 @@ public class Algebra {
 	public static int minus(int x1, int x2) {
 		int counter = 0;
 		int finalNum = x1;
-		while (counter < x2)
+		if (x2 > 0) 
+		{
+			while (counter < x2)
 		{
 			counter++;
 			finalNum--;
 		}
+		}
+		else
+		{
+			while (counter > x2)
+			{
+				counter--;
+				finalNum++;
+			}
+		}	
 		return finalNum;
 	}
 
