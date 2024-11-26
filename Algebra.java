@@ -14,7 +14,7 @@ public class Algebra {
    		System.out.println(pow(5,3));      // 5^3
    		System.out.println(pow(3,5));      // 3^5
    		System.out.println(div(12,3));   // 12 / 3    
-   		System.out.println(div(5,5));    // 5 / 5  
+   		System.out.println(div(-15, -3));    // 5 / 5  
    		System.out.println(div(25,7));   // 25 / 7
    		System.out.println(mod(25,7));   // 25 % 7
    		System.out.println(mod(120,6));  // 120 % 6    
@@ -107,45 +107,51 @@ public class Algebra {
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
-	int finalNum = 0;
-    int dividend = x1;
-    int divisor = x2;
-
-    
-    int negativeResult = 0;
-
-    
-    if (dividend < 0) {
-        dividend = minus(dividend, dividend);  
-        negativeResult = plus(negativeResult, 1); 
-    }
-    if (divisor < 0) {
-        divisor = minus(divisor, divisor); 
-        negativeResult = plus(negativeResult, 1); 
-    }
-
-   
-    while (dividend >= divisor) {
-        dividend = minus(dividend, divisor);  
-        finalNum = plus(finalNum, 1); 
-    }
-
-    if (negativeResult == 1) {
-        finalNum = minus(finalNum, finalNum); 
-    }
-
-    return finalNum;
-	}
-
-	// Returns x1 % x2
-	public static int mod(int x1, int x2) {
-		int finalNum = x1;
-		while (finalNum >= x2)
+		int counter = 0;
+		int finalNum = x2;
+		if (x1 == 0) { return 0; }
+		if (x2 == 0) { return 0; }
+		if (x1 > 0)
 		{
-			finalNum = minus(finalNum, x2);
+			if (x2 > 0)
+			{
+				while (finalNum <= x1)
+				{
+					finalNum = plus(finalNum, x2);
+					counter++;
+				}
+			}
+			else 
+			{
+				while (finalNum <= times(x1, -1))
+				{
+					finalNum = plus(finalNum, x2);
+					counter++;
+				}
+			}
+			
 		}
-		return finalNum;
-	}	
+		else //if x > 0
+			{
+				if (x2 < 0) 
+				{
+					while (x1 <= finalNum)
+				{
+					finalNum = plus(finalNum, x2);
+					counter++;
+				}
+				}
+				else 
+				{
+					while (times (finalNum, -1) >= x1)
+					{
+					finalNum = plus(finalNum, x2);
+					counter++;
+					}
+				}
+			}
+			return counter;
+	}
 
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
