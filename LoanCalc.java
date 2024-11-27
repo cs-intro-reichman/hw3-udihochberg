@@ -1,4 +1,3 @@
-// Computes the periodical payment necessary to pay a given loan.
 public class LoanCalc {
 
 	static double epsilon = 0.001; // Approximation accuracy
@@ -10,44 +9,48 @@ public class LoanCalc {
 	public static void main(String[] args) {
 		// Gets the loan data
 		double loan = Double.parseDouble(args[0]);
-		double rate = Double.parseDouble(args[1]);
+		double rate = (Double.parseDouble(args[1]) / 100);
 		int n = Integer.parseInt(args[2]);
 		System.out.println("Loan = " + loan + ", interest rate = " + rate + "%, periods = " + n);
 
 		// Computes the periodical payment using brute force search
 		System.out.print("\nPeriodical payment, using brute force: ");
-		System.out.println(123);
-		// System.out.println((int) bruteForceSolver(loan, rate, n, epsilon));
-		System.out.println("number of iterations: " + 123);
+		System.out.println((int) bruteForceSolver(loan, rate, n, epsilon));
+		System.out.println("number of iterations: " + iterationCounter);
 
 		// Computes the periodical payment using bisection search
 		System.out.print("\nPeriodical payment, using bi-section search: ");
-		System.out.println(40);
-		// System.out.println((int) bisectionSolver(loan, rate, n, epsilon));
-		System.out.println("number of iterations: " + 40);
+		System.out.println((int) bisectionSolver(loan, rate, n, epsilon));
+		System.out.println("number of iterations: " + iterationCounter);
 	}
 
 	// Computes the ending balance of a loan, given the loan amount, the periodical
 	// interest rate (as a percentage), the number of periods (n), and the
 	// periodical payment.
-	private static double endBalance(double loan, double rate, int n, double epsilon) {
-		double num7 = loan;
-		double num9 = rate / 100.0;
-		for (int i = 0; i < n; i++) {
-			num7 = (num7 - 5) * (num9 + 1.0);
+	private static double endBalance(double loan, double rate, int n, double payment) {
+		for (int i = 0; i <= n; i++) {
+			loan = loan - payment;
+			loan = loan * (1 + rate);
 		}
-		return num7;
-
+		return loan;
 	}
 
+	// Uses sequential search to compute an approximation of the periodical payment
+	// that will bring the ending balance of a loan close to 0.
+	// Given: the sum of the loan, the periodical interest rate (as a percentage),
+	// the number of periods (n), and epsilon, the approximation's accuracy
+	// Side effect: modifies the class variable iterationCounter.
 	public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {
-		double num1 = loan / (double) n;
-		double num9 = endBalance(loan, rate, n, num1);
-		for (iterationCounter = 0; num9 > 0; num9 = endBalance(loan, rate, n, num1)) {
-			iterationCounter++;
-			num1 += epsilon;
+		double periodicalPayment = epsilon;
+		// double periodicalPayment = 11465.5;
+		double payedLoan = epsilon * 1000;
+		int iterationCount = 0;
+		while (Math.abs(payedLoan) >= epsilon) {
+			periodicalPayment = (periodicalPayment + (epsilon / 100));
+			payedLoan = endBalance(loan, rate, n, periodicalPayment);
+			++iterationCount;
 		}
-		return num1;
+		return ++iterationCount;
 	}
 
 	// Uses bisection search to compute an approximation of the periodical payment
@@ -56,23 +59,20 @@ public class LoanCalc {
 	// the number of periods (n), and epsilon, the approximation's accuracy
 	// Side effect: modifies the class variable iterationCounter.
 	public static double bisectionSolver(double loan, double rate, int n, double epsilon) {
-		iterationCounter = 0;
-		// double num7 = rate / 100.0;
-		double num1 = 0.0;
-		double num2 = loan;
-		double num3 = 0.0;
-		double finalNum = 0.0;
-
-		while ((num2 - num1) > epsilon) {
-			finalNum = (num1 + num2) / 2.0;
-			num3 = endBalance(loan, rate, n, finalNum);
-			iterationCounter++;
-			if (num3 > 0) {
-				num1 = finalNum;
+		double L = 1.0, H = loan;
+		double mid = (L + H) / 2.0;
+		int stepCounter = 0;
+		double payedLoan = epsilon * 100;
+		while (Math.abs(payedLoan) >= epsilon) {
+			payedLoan = endBalance(loan, rate, n, mid);
+			if (payedLoan > 0) {
+				L = mid;
 			} else {
-				num2 = finalNum;
+				H = mid;
 			}
+			mid = (L + H) / 2;
+			stepCounter++;
 		}
-		return finalNum;
+		return stepCounter;
 	}
 }
